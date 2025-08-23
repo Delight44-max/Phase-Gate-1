@@ -1,38 +1,45 @@
+// Step 1: Get user input
+
+// Step 2: Convert inputs
+
+// Step 3: Calculate next period
+
+// Step 4: Calculate ovulation (14 days before next period)
+
+// Step 5: Fertile window (5 days before ovulation to ovulation day)
+
+// Step 6: Display results using toDateString()
+
+
 const prompt = require('prompt-sync')();
 
+function calculateOvulation() {
+  
+  const lastPeriodInput = prompt("Enter the start date of your last period (yyyy-MM-dd): ");
+  const cycleLengthInput = prompt("Enter your cycle length (e.g., 28): ");
 
+ 
+  const lastPeriodDate = new Date(lastPeriodInput);
+  const cycleLength = parseInt(cycleLengthInput, 10);
 
-function nextPeriodDetails() {
-const userInput = prompt("ENTER THE START DATE OF YOUR LAST PERIOD (yyyy-MM-dd): ");
-const startDate = new Date(userInput);
+ 
+  const nextPeriodDate = new Date(lastPeriodDate);
+  nextPeriodDate.setDate(lastPeriodDate.getDate() + cycleLength);
 
-const cycleLength = parseInt(prompt("ENTER YOUR CYCLE LENGTH (e.g., 28):"), 10);
+  
+  const ovulationDate = new Date(nextPeriodDate);
+  ovulationDate.setDate(nextPeriodDate.getDate() - 14);
 
-const nextPeriod = new Date(startDate);
-nextPeriod.setDate(startDate.getDate() + cycleLength);
+  
+  const fertileStart = new Date(ovulationDate);
+  fertileStart.setDate(ovulationDate.getDate() - 5);
 
-    return nextPeriod;
+  const fertileEnd = new Date(ovulationDate);
+
+  
+  console.log(" Your next period is expected on: " + nextPeriodDate.toDateString());
+  console.log("Your ovulation day is: " + ovulationDate.toDateString());
+  console.log(" Your fertile window is: " + fertileStart.toDateString() + " to " + fertileEnd.toDateString());
 }
 
-function ovulationPeriod() {
-const beforeOvulation = 14;
- const spermLifeSpan = 5;
-
-const nextPeriod = nextPeriodDetails();
-
-const ovulationDate = new Date(nextPeriod);
-ovulationDate.setDate(nextPeriod.getDate() - beforeOvulation);
-
-const fertileStart = new Date(ovulationDate);
-fertileStart.setDate(ovulationDate.getDate() - spermLifeSpan);
-
-const fertileEnd = new Date(ovulationDate);
-
-console.log("Your ovulation day is: " + ovulationDate.toISOString().split('T')[0] + " --- high possibility of pregnancy if you have sex");
-console.log("Your fertile window starts on: " + fertileStart.toISOString().split('T')[0] + " --- tendency of pregnancy is low");
-console.log("Your fertile window ends on: " + fertileEnd.toISOString().split('T')[0] + " --- the chance of getting pregnant is very low, almost impossible");
-
-}
-
-
-ovulationPeriod();
+calculateOvulation();
